@@ -3,10 +3,10 @@ import React, {useState,useEffect} from 'react'
 
 // get data from localStorage
 const getDataLS = () =>{
-    let data=localStorage.getItem('userdata');
+    const data=localStorage.getItem('Employee');
     // console.log(data);
     if (data){
-        return JSON.parse(localStorage.getItem('userdata'));    
+        return JSON.parse(data);    
     }
     else{
         return [];
@@ -15,39 +15,43 @@ const getDataLS = () =>{
 
 export default function SignUp() {
     
+    const [userdata, setUserData] = useState(getDataLS())
     
-    const [name, setName] = useState("");
-    const [errorName, setErrorName] = useState(false);
-
-    const [email, setEmail] = useState("");
-    const [errorEmail, setErrorEmail] = useState(false);
-
-    const [password, setPassword] = useState("");
-    const [errorPassword, setErrorPassword] = useState(false);
-        
-    const [userdata, setUserData] = useState(getDataLS());
+    const [name, setName] = useState("")
+    const [errorName, setErrorName] = useState(false)
     
-    let userData =[{
-    name:name,
-    email:email,
-    password:password
-    }]
+    const [email, setEmail] = useState("")
+    const [errorEmail, setErrorEmail] = useState(false)
+    
+    const [password, setPassword] = useState("")
+    const [errorPassword, setErrorPassword] = useState(false)
+    
+    
+    
     
     const sumbitDetails = ((event) => {      
         event.preventDefault(); 
-        setUserData(userData);
-        if(name === ""){
-            setErrorName(true);
-        };
-        if(email === ""){
-            setErrorEmail(true);
-        };
-        if(password === ""){
-            setErrorPassword(true);
-        };
-        if (name && email && password !== "") {
-            alert('Data Saved Successfully')
-            
+
+        let UserData ={
+        name,
+        email,
+        password
+              }
+              setUserData([...userdata,UserData]);    
+              
+              if(name === ""){
+                  setErrorName(true);
+                };
+                if(email === ""){
+                    setErrorEmail(true);
+                };
+                if(password === ""){
+                    setErrorPassword(true);
+                };
+                if (name && email && password !== "") {
+                    alert('Data Saved Successfully')
+                    // setUserData([...userdata,userData])
+                    
         }
         else{
             alert('Please fill form correctly')
@@ -55,7 +59,7 @@ export default function SignUp() {
     })
     
     useEffect(() => {
-        localStorage.setItem('userdata',JSON.stringify(userdata));  //setting data to Local Storage                    
+        localStorage.setItem('Employee',JSON.stringify(userdata));  //setting data to Local Storage                    
     },[userdata])
     
     // let history = useHistory();
