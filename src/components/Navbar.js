@@ -2,10 +2,28 @@ import React from 'react'
 import {
     Link
   } from "react-router-dom";
+import { useState } from 'react/cjs/react.development';
   
+  const getDataLS = () => {
+    let data = localStorage.getItem('Employee');
+    if (data) {
+        // let a = data[1];
+        // console.log(a);
+        var a =  JSON.parse(data);
+        return a;
+    }
+    else {
+        return [];
+    }
+}
+
 
   
-export default function Navbar(props) {
+export default function Navbar(props)
+  
+{
+    const[Employee,useEmployee]=useState(getDataLS());
+    
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -17,6 +35,7 @@ export default function Navbar(props) {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
+
                                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                             </li>  
                         </ul>
@@ -27,6 +46,10 @@ export default function Navbar(props) {
                     </div>
                 </div>
             </nav>
+                     {Employee.map(emp=>
+                        {
+                            return <h1 className="my-5">Welcome, {emp.name}</h1>
+                        })}
         </div>
     )
 }

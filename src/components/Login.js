@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router';
+import { createBrowserHistory } from 'history';
 
 // get data from localStorage
 const getDataLS = () => {
-    let data = localStorage.getItem('userdata');
-    console.log(data);
-    if (data) {
-        return JSON.parse(localStorage.getItem('userdata'));
+    let data = localStorage.getItem('Employee');
+    if (data) 
+    {
+        return JSON.parse(data);
     }
     else {
         return [];
@@ -14,7 +14,9 @@ const getDataLS = () => {
 }
 
 export default function Login() {
-
+    
+    let history = createBrowserHistory({forceRefresh:true});
+    
     const [email, setEmail] = useState("");
     const [errorEmail, setErrorEmail] = useState(false);
 
@@ -23,14 +25,12 @@ export default function Login() {
 
     const [match, setMatch] = useState(getDataLS());
 
-    // console.log(match);
    
     let loginData = {
         email: email,
         password: password,
     }
     
-    let history = useHistory();
     
     const handleLogin = () => {
         match.forEach(element => {
@@ -46,8 +46,10 @@ export default function Login() {
             };            
             if(matchData.email === loginData.email && matchData.password === loginData.password){
                 history.push("/Dashboard")
+                // window.location.href="/Dashboard";
             }
             else{
+                console.log(matchData);
                alert('Invalid Credientials');
             }
         });
