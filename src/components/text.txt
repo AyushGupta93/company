@@ -1,0 +1,162 @@
+
+import React, { useState } from 'react';
+import { makeStyles } from '@mui/styles';
+import {Typography,Button,Container,TextField } from '@mui/material';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { useHistory } from 'react-router-dom'
+
+
+const currencies = [
+    {
+        value: 'Mr.',
+        label: 'Mr.',
+    },
+    {
+        value: 'Ms.',
+        label: 'Ms.',
+    },
+    {
+        value: 'Mrs.',
+        label: 'Mrs.',
+    },
+];
+
+const useStyle = makeStyles({
+    formtext: {
+        margin: 10,
+        display: "block"
+    }
+});
+function Form() {
+
+    const classes = useStyle();
+    const history = useHistory();
+
+    const [title, setTitle] = useState('Mr.');
+
+    const [first_name, setFname] = useState("");
+    const [errorfirst_name, setErrorFname] = useState(false);
+
+    const [last_name, setLname] = useState("");
+
+    const [email, setEmail] = useState("");
+    const [errorEmail, setErrorEmail] = useState(false);
+
+    const [phone, setPhoneNO] = useState("");
+    const [errorPhoneNo, setErrorPhoneNO] = useState(false);
+
+    // const [gender, setGender] = useState("Male")
+
+    const handleSelect = (event) => {
+        setTitle(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        if(first_name == ""){
+            setErrorFname(true);
+        };
+        if(phone == ""){
+            setErrorPhoneNO(true);
+        };
+        if(email == ""){
+            setErrorEmail(true);
+        };
+        if (first_name && email && phone) {
+            fetch("http://localhost:8000/person/personInfo/", {
+                method: "POST",
+                headers: {"Content-type": "application/json"},
+                body: JSON.stringify({ title, first_name, last_name, email, phone })
+            }).then(() => history.push("/"))
+            console.log(title, first_name, last_name, email, phone);
+        }
+    }
+    return (
+        <Container border={1} color="primary">
+            <Typography
+                variant="h6"
+                color="textSecondary"
+                component="h2"
+                gutterBottom>
+                File the form
+            </Typography>
+
+            <form noValidate autoComplete="on" onSubmit={handleSubmit}>
+                <TextField
+                    className={classes.formtext}
+                    id="outlined-select-Title-native"
+                    select
+                    label="Title"
+                    value={title}
+                    onChange={handleSelect}
+                    SelectProps={{
+                        native: true,
+                    }}
+                    helperText="Please select your Title"
+                    variant="outlined"
+                >
+                    {currencies.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </TextField>
+
+                <TextField
+                    className={classes.formtext}
+                    onChange={(event) => setFname(event.target.value)}
+                    id="outlined-margin-normal"
+                    label="First Name"
+                    error={errorfirst_name}
+                    variant="outlined"
+                />
+                <TextField
+                    className={classes.formtext}
+                    onChange={(event) => setLname(event.target.value)}
+                    id="outlined-multiline-static"
+                    label="Last Name"
+                    multiline
+                    placeholder="Lastname"
+                    variant="outlined"
+                />
+                {/* <FormControl className={classes.formtext}>
+                    <FormLabel component="legend">Gender</FormLabel>
+                    <RadioGroup value={gender} onChange={(event) => setGender(event.target.value)} >
+                        <FormControlLabel value="Male" control={<Radio />} label="Male" />
+                        <FormControlLabel value="Female" control={<Radio />} label="Female" />
+                        <FormControlLabel value="Others" control={<Radio />} label="Others" />
+                    </RadioGroup>
+                </FormControl> */}
+
+                <TextField
+                    className={classes.formtext}
+                    onChange={(event) => setPhoneNO(event.target.value)}
+                    id="outlined-margin-normal"
+                    label="PhoneNo."
+                    error={errorPhoneNo}
+                    variant="outlined"
+                />
+
+                <TextField
+                    className={classes.formtext}
+                    onChange={(event) => setEmail(event.target.value)}
+                    id="outlined-multiline-static"
+                    label="Email"
+                    error={errorEmail}
+                    variant="outlined"
+                />
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary">
+                    Submit
+                <KeyboardArrowRightIcon />
+                </Button>
+
+            </form>
+
+        </Container>
+    )
+}
+
+export default Form
