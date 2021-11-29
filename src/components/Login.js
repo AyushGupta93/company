@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { createBrowserHistory } from 'history';
+import { useNavigate } from 'react-router-dom';
 
 // get data from localStorage
 const getDataLS = () => {
@@ -15,7 +15,7 @@ const getDataLS = () => {
 
 export default function Login() {
     
-    let history = createBrowserHistory({forceRefresh:true});
+    const navigate = useNavigate();
     
     const [email, setEmail] = useState("");
     const [errorEmail, setErrorEmail] = useState(false);
@@ -45,11 +45,9 @@ export default function Login() {
                 setErrorPassword(true);
             };            
             if(matchData.email === loginData.email && matchData.password === loginData.password){
-                history.push("/Dashboard")
-                // window.location.href="/Dashboard";
+                navigate("/dashboard")
             }
             else{
-                console.log(matchData);
                alert('Invalid Credientials');
             }
         });
@@ -63,7 +61,7 @@ export default function Login() {
         <div>
             <form onSubmit={submitForm}>
                 <div className="container">
-                    <h1 className="text-center">Login</h1>
+                    <h2 className="text-center">Login</h2>
                     <div className="mb-3">
                         <label htmlFor="Email" className="form-label">Email address:</label>
                         <input type="email" className="form-control" id="Email" error={errorEmail}  value={email} onChange={(e) => { let email = e.target.value; setEmail(email) }} aria-describedby="emailHelp" />

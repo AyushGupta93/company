@@ -16,13 +16,9 @@ export const Dashboard = () => {
 
     const [userdata, setUserData] = useState(getDataLS());
 
-
-
-
     return (
 
         <div>
-            <h1 className="text-center my-2">Welcome Aditi Malpani</h1>
             <div className="card-body my-2">
                 <table class="table">
                     <thead class="table-dark">
@@ -38,9 +34,7 @@ export const Dashboard = () => {
                                 <td>{data.name}</td>
                                 <td>{data.email}</td>
                                 <td>Pending</td>
-
                             </tr>
-
                         )}
 
                     </tbody>

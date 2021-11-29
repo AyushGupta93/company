@@ -1,16 +1,14 @@
 import React from 'react'
+import { useState } from 'react';
 import {
     Link
-  } from "react-router-dom";
-import { useState } from 'react/cjs/react.development';
-  
-  const getDataLS = () => {
+} from "react-router-dom";
+
+const getDataLS = () => {
     let data = localStorage.getItem('Employee');
     if (data) {
-        // let a = data[1];
-        // console.log(a);
-        var a =  JSON.parse(data);
-        return a;
+        var parsedData = JSON.parse(data);
+        return parsedData;
     }
     else {
         return [];
@@ -18,12 +16,10 @@ import { useState } from 'react/cjs/react.development';
 }
 
 
-  
-export default function Navbar(props)
-  
-{
-    const[Employee,useEmployee]=useState(getDataLS());
-    
+
+export default function Navbar(props) {
+    const [Employee, useEmployee] = useState(getDataLS());
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -37,19 +33,15 @@ export default function Navbar(props)
                             <li className="nav-item">
 
                                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
-                            </li>  
+                            </li>
                         </ul>
                         <form className="d-flex">
-                        <Link to="/Login" className="btn btn-sm btn-primary mx-2">Login</Link>
-                        <Link to="/SignUp" className="btn btn-sm btn-primary">SignUp</Link>
+                            <Link to="/Login" className="btn btn-sm btn-primary mx-2">Login</Link>
+                            <Link to="/SignUp" className="btn btn-sm btn-primary">SignUp</Link>
                         </form>
                     </div>
                 </div>
             </nav>
-                     {Employee.map(emp=>
-                        {
-                            return <h1 className="my-5">Welcome, {emp.name}</h1>
-                        })}
         </div>
     )
 }

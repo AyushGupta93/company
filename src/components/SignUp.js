@@ -1,10 +1,10 @@
 import React, {useState,useEffect} from 'react'
-// import { useHistory } from 'react-router';
+// import { useNavigate } from 'react-router-dom';
+
 
 // get data from localStorage
 const getDataLS = () =>{
-    const data=localStorage.getItem('Employee');
-    // console.log(data);
+    let data=localStorage.getItem('Employee');
     if (data){
         return JSON.parse(data);    
     }
@@ -26,7 +26,7 @@ export default function SignUp() {
     const [password, setPassword] = useState("")
     const [errorPassword, setErrorPassword] = useState(false)
     
-    
+    // const navigate = useNavigate();
     
     
     const sumbitDetails = ((event) => {      
@@ -50,26 +50,24 @@ export default function SignUp() {
                 };
                 if (name && email && password !== "") {
                     alert('Data Saved Successfully')
-                    // setUserData([...userdata,userData])
                     
-        }
-        else{
-            alert('Please fill form correctly')
-        }
-    })
-    
-    useEffect(() => {
-        localStorage.setItem('Employee',JSON.stringify(userdata));  //setting data to Local Storage                    
+                }
+                else{
+                    alert('Please fill form correctly')
+                }
+            })
+            
+            // navigate("/login")
+            useEffect(() => {
+        localStorage.setItem('Employee',JSON.stringify(userdata));  //setting data to Local Storage 
+                              
     },[userdata])
-    
-    // let history = useHistory();
-    // history.push("/Login");  
      
     return (   
         <div>
             <form onSubmit={sumbitDetails}>
                 <div className="container">
-                    <h1 className="text-center">SignUp</h1>
+                    <h2 className="text-center">SignUp</h2>
                 <div className="mb-3">
                     <label htmlFor="Name" className="form-label">Name</label>
                     <input type="text" className="form-control" id="Name" error={errorName} value={name} onChange={(e)=> {let name = e.target.value; setName(name)}} aria-describedby="Name"/>
